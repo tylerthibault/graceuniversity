@@ -1,0 +1,95 @@
+{% extends "bases/public.html" %}
+
+{% block title %}Grace City - Steel & Timber{% endblock %}
+
+{% block styles %}
+<!-- Main.css already includes the theme variable definitions at the top -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock styles %}
+
+{% block content %}
+<div class="gc-container">
+    <div class="gc-header-bar"></div>
+    
+    <div class="gc-main-content">
+        <h1 class="gc-heading-primary">Grace City</h1>
+        <p class="gc-subtitle">Steel Forged, Timber Built, Faith Grounded</p>
+
+        <div class="gc-steel-divider"></div>
+
+        <h2 class="gc-heading-secondary">Assembly Schedule</h2>
+        <div class="gc-table-container">
+            <div class="gc-table-header"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assembly</th>
+                        <th>Time</th>
+                        <th>Sector</th>
+                        <th>Overseer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Main Worship</td>
+                        <td>SUN 09:00</td>
+                        <td>Central Hall</td>
+                        <td>Pastor John</td>
+                    </tr>
+                    <tr>
+                        <td>Men's Forge</td>
+                        <td>WED 18:30</td>
+                        <td>Iron Works</td>
+                        <td>Elder Mark</td>
+                    </tr>
+                    <tr>
+                        <td>Scripture Lab</td>
+                        <td>THU 19:00</td>
+                        <td>Study Block</td>
+                        <td>Pastor Mike</td>
+                    </tr>
+                    <tr>
+                        <td>First Light</td>
+                        <td>SAT 05:00</td>
+                        <td>Watch Tower</td>
+                        <td>Elder Steve</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="gc-steel-divider"></div>
+
+        <h2 class="gc-heading-secondary">Core Systems</h2>
+        <div class="gc-cards-container">
+            <div class="gc-card">
+                <h3>Biblical Foundation</h3>
+                <p>Engineered on the unshakeable truth of Scripture, tested and proven through the ages like steel tempered in fire.</p>
+            </div>
+            <div class="gc-card">
+                <h3>Brotherhood</h3>
+                <p>Forged bonds of accountability and strength, welded together in purpose and mission like timber beams bearing weight.</p>
+            </div>
+            <div class="gc-card">
+                <h3>Leadership</h3>
+                <p>Equipping men with the tools and wisdom to lead with integrity and conviction, building on solid foundations.</p>
+            </div>
+            <div class="gc-card">
+                <h3>Outreach</h3>
+                <p>Deploying the Gospel message with precision and power to a world in need, constructing bridges to the lost.</p>
+            </div>
+        </div>
+
+        <div class="gc-steel-divider"></div>
+
+        <h2 class="gc-heading-secondary">Engage</h2>
+        <div class="gc-button-group">
+            <button class="gc-btn gc-btn-primary"><span>Visit This Week</span></button>
+            <button class="gc-btn gc-btn-secondary"><span>Join The Forge</span></button>
+            <button class="gc-btn"><span>Message Archive</span></button>
+            <button class="gc-btn gc-btn-primary"><span>Support Mission</span></button>
+            <button class="gc-btn gc-btn-secondary"><span>Contact Team</span></button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace University</title>
+
+    <!-- Theme script - MUST load first to prevent flash -->
+    <script src="{{ url_for('static', filename='js/components/theme.js') }}"></script>
+
+    <!-- <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
+    
+    <!-- Theme CSS variables -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/theme-vars.css') }}">
+    
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+    {% block styles %}
+
+    {% endblock styles %}
+    <style>
+        .page_navigator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        /* Theme toggle button styling */
+        .gc-theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            border: 2px solid;
+            background: transparent;
+            cursor: pointer;
+            font-family: 'Trebuchet MS', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        [data-gc-theme="dark"] .gc-theme-toggle {
+            color: #a8a8a8;
+            border-color: #4d4d4d;
+            background: rgba(26, 26, 26, 0.9);
+        }
+        
+        [data-gc-theme="light"] .gc-theme-toggle {
+            color: #4a4a4a;
+            border-color: #c0c0c0;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .gc-theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'app_components/flash.html' %}
+
+    {% block page_wrapper %}
+    <!-- Theme toggle button -->
+    <button class="gc-theme-toggle" 
+            data-gc-theme-toggle 
+            data-light-text="☀️ Light" 
+            data-dark-text="🌙 Dark"
+            aria-label="Toggle theme">
+        🌙 Dark
+    </button>
+
+    <!-- base navigation -->
+
+    <!-- base content -->
+    {% block content %}
+
+    {% endblock content %}
+
+    <!-- base footer -->
+    {% block footer %}
+
+    {% endblock footer %}
+
+    {% endblock page_wrapper %}
+
+
+    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    {% block scripts %}
+
+    {% endblock scripts %}
+</body>
+
+</html>

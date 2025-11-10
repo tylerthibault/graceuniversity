@@ -1,0 +1,379 @@
+{% extends "bases/public.html" %}
+
+{% block title %}404 - Page Not Found | Grace University{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dividers.css') }}">
+
+<style>
+    /* 404 page container */
+    .gc-404-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: var(--gc-bg-primary);
+        transition: background 0.3s ease;
+    }
+
+    /* 404 content wrapper */
+    .gc-404-content {
+        text-align: center;
+        max-width: 700px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* 404 number display */
+    .gc-404-number {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 10rem;
+        font-weight: 700;
+        letter-spacing: 20px;
+        color: var(--gc-steel-mid);
+        text-shadow: 
+            3px 3px 0 var(--gc-steel-dark),
+            6px 6px 20px rgba(0, 0, 0, 0.5);
+        margin: 0;
+        line-height: 1;
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Steel rivets on numbers */
+    .gc-404-number::before,
+    .gc-404-number::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--gc-steel-light) 0%, var(--gc-steel-mid) 70%, var(--gc-steel-dark) 100%);
+        box-shadow: 
+            inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+            inset 2px 2px 4px rgba(255, 255, 255, 0.1);
+    }
+
+    .gc-404-number::before {
+        top: 20px;
+        left: -10px;
+    }
+
+    .gc-404-number::after {
+        bottom: 20px;
+        right: -10px;
+    }
+
+    /* Glitch effect for 404 */
+    .gc-404-number::selection {
+        background: var(--gc-wood-mid);
+        color: var(--gc-bg-primary);
+    }
+
+    /* Heading */
+    .gc-404-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-weight: 700;
+        color: var(--gc-text-primary);
+        margin: 40px 0 20px 0;
+    }
+
+    /* Description */
+    .gc-404-description {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        color: var(--gc-text-secondary);
+        margin: 0 0 50px 0;
+        line-height: 1.8;
+    }
+
+    /* Steel divider */
+    .gc-404-divider {
+        width: 200px;
+        height: 4px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            var(--gc-steel-mid) 20%, 
+            var(--gc-wood-mid) 50%, 
+            var(--gc-steel-mid) 80%, 
+            transparent 100%
+        );
+        margin: 40px auto;
+        position: relative;
+    }
+
+    .gc-404-divider::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--gc-wood-light) 0%, var(--gc-wood-mid) 100%);
+        box-shadow: 
+            inset -1px -1px 2px rgba(0, 0, 0, 0.5),
+            0 0 10px var(--gc-wood-accent);
+    }
+
+    /* Action buttons */
+    .gc-404-actions {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
+
+    .gc-404-btn {
+        min-width: 200px;
+    }
+
+    /* Helpful links */
+    .gc-404-links {
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 2px solid var(--gc-border-primary);
+    }
+
+    .gc-404-links-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 700;
+        color: var(--gc-text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .gc-404-link-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .gc-404-link-item {
+        margin: 0;
+    }
+
+    .gc-404-link {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-wood-accent);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        position: relative;
+    }
+
+    .gc-404-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gc-wood-mid);
+        transition: width 0.3s ease;
+    }
+
+    .gc-404-link:hover {
+        color: var(--gc-wood-mid);
+    }
+
+    .gc-404-link:hover::after {
+        width: 100%;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .gc-404-number {
+            font-size: 7rem;
+            letter-spacing: 15px;
+        }
+
+        .gc-404-title {
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+        }
+
+        .gc-404-description {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .gc-404-number {
+            font-size: 5rem;
+            letter-spacing: 10px;
+        }
+
+        .gc-404-number::before,
+        .gc-404-number::after {
+            width: 15px;
+            height: 15px;
+        }
+
+        .gc-404-title {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .gc-404-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gc-404-btn {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .gc-404-link-list {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
+    /* Animated background elements */
+    .gc-404-bg-element {
+        position: fixed;
+        opacity: 0.03;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .gc-404-bg-gear-1 {
+        top: 10%;
+        left: 10%;
+        width: 150px;
+        height: 150px;
+        border: 8px solid var(--gc-steel-mid);
+        border-radius: 50%;
+        animation: rotate-slow 20s linear infinite;
+    }
+
+    .gc-404-bg-gear-2 {
+        bottom: 15%;
+        right: 15%;
+        width: 100px;
+        height: 100px;
+        border: 6px solid var(--gc-steel-mid);
+        border-radius: 50%;
+        animation: rotate-slow 15s linear infinite reverse;
+    }
+
+    @keyframes rotate-slow {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<!-- Background decorative elements -->
+<div class="gc-404-bg-element gc-404-bg-gear-1"></div>
+<div class="gc-404-bg-element gc-404-bg-gear-2"></div>
+
+<div class="gc-404-container">
+    <div class="gc-404-content">
+        <!-- 404 Number -->
+        <h1 class="gc-404-number">404</h1>
+
+        <!-- Title -->
+        <h2 class="gc-404-title">Sector Not Found</h2>
+
+        <!-- Divider -->
+        <div class="gc-404-divider"></div>
+
+        <!-- Description -->
+        <p class="gc-404-description">
+            The coordinates you entered don't map to any known sector in our grid.
+            The structure you're looking for may have been relocated, demolished, or never existed.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="gc-404-actions">
+            <a href="{{ url_for('main.index') }}" class="gc-btn gc-btn-dark-primary gc-404-btn">
+                <span>Return to Base</span>
+            </a>
+            <button onclick="history.back()" class="gc-btn gc-btn-dark gc-404-btn">
+                <span>Go Back</span>
+            </button>
+        </div>
+
+        <!-- Helpful Links -->
+        <div class="gc-404-links">
+            <p class="gc-404-links-title">Navigate to:</p>
+            <ul class="gc-404-link-list">
+                <li class="gc-404-link-item">
+                    <a href="{{ url_for('main.index') }}" class="gc-404-link">Home</a>
+                </li>
+                <li class="gc-404-link-item">
+                    <a href="{{ url_for('main.about') }}" class="gc-404-link">About</a>
+                </li>
+                <li class="gc-404-link-item">
+                    <a href="{{ url_for('main.contact') }}" class="gc-404-link">Contact</a>
+                </li>
+                <li class="gc-404-link-item">
+                    <a href="{{ url_for('auth.login_page') }}" class="gc-404-link">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Add subtle parallax effect to background elements
+    document.addEventListener('mousemove', function(e) {
+        const gear1 = document.querySelector('.gc-404-bg-gear-1');
+        const gear2 = document.querySelector('.gc-404-bg-gear-2');
+        
+        if (gear1 && gear2) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            gear1.style.transform = `translate(${x * 20}px, ${y * 20}px) rotate(${x * 360}deg)`;
+            gear2.style.transform = `translate(${-x * 15}px, ${-y * 15}px) rotate(${-x * 360}deg)`;
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            history.back();
+        } else if (e.key === 'h' || e.key === 'H') {
+            window.location.href = "{{ url_for('main.index') }}";
+        }
+    });
+</script>
+{% endblock scripts %}

@@ -1,0 +1,343 @@
+{% extends "bases/public.html" %}
+
+{% block title %}Login - Grace University{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/typography.css') }}">
+
+<style>
+    /* Login page container */
+    .gc-login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: var(--gc-bg-primary);
+        transition: background 0.3s ease;
+    }
+
+    /* Login card wrapper */
+    .gc-login-card-wrapper {
+        width: 100%;
+        /* max-width: 480px; */
+        max-width: 900px;
+        animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Login header */
+    .gc-login-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .gc-login-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--gc-text-primary);
+    }
+
+    .gc-login-subtitle {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-text-secondary);
+    }
+
+    /* Form styling */
+    .gc-login-form {
+        margin-top: 30px;
+    }
+
+    .gc-form-group {
+        margin-bottom: 25px;
+    }
+
+    .gc-form-label {
+        display: block;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--gc-text-primary);
+    }
+
+    .gc-form-input {
+        width: 100%;
+        padding: 14px 18px;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.95rem;
+        border: 2px solid var(--gc-border-primary);
+        background: var(--gc-bg-secondary);
+        color: var(--gc-text-primary);
+        transition: all 0.3s ease;
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    .gc-form-input:focus {
+        outline: none;
+        border-color: var(--gc-wood-mid);
+        background: var(--gc-bg-tertiary);
+        box-shadow: 0 0 0 3px var(--gc-wood-light);
+    }
+
+    .gc-form-input::placeholder {
+        color: var(--gc-text-tertiary);
+        opacity: 0.7;
+    }
+
+    /* Alert messages */
+    .gc-alert {
+        padding: 14px 18px;
+        margin-bottom: 25px;
+        border: 2px solid;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    .gc-alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+        color: #fca5a5;
+    }
+
+    .gc-alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
+        color: #6ee7b7;
+    }
+
+    /* Submit button */
+    .gc-login-submit {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Footer links */
+    .gc-login-footer {
+        margin-top: 30px;
+        text-align: center;
+        padding-top: 25px;
+        border-top: 2px solid var(--gc-border-primary);
+    }
+
+    .gc-login-link {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-wood-accent);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .gc-login-link:hover {
+        color: var(--gc-wood-mid);
+        text-decoration: underline;
+    }
+
+    /* Steel rivet decoration */
+    .gc-login-card-wrapper .gc-card::after {
+        top: 12px;
+        right: 12px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .gc-login-title {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+        }
+
+        .gc-login-card-wrapper {
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<div class="gc-login-container">
+    <div class="gc-login-card-wrapper">
+        <!-- Login Header -->
+        <div class="gc-login-header">
+            <h1 class="gc-login-title">Grace University</h1>
+            <p class="gc-login-subtitle">Access Portal</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="gc-card gc-card-dark">
+            <!-- Login Form -->
+            <form method="POST" action="{{ url_for('auth.login') }}" class="gc-login-form">
+                <!-- Email Field -->
+                <div class="gc-form-group">
+                    <label for="email" class="gc-form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="gc-form-input"
+                        placeholder="your.email@example.com" required autocomplete="email">
+                </div>
+
+                <!-- Password Field -->
+                <div class="gc-form-group">
+                    <label for="password" class="gc-form-label">Password</label>
+                    <input type="password" id="password" name="password" class="gc-form-input"
+                        placeholder="Enter your password" required autocomplete="current-password">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="gc-btn gc-btn-dark-primary gc-login-submit">
+                    <span>Login</span>
+                </button>
+            </form>
+
+            <!-- Footer Links -->
+            <div class="gc-login-footer">
+                <p style="margin: 0;">
+                    <span
+                        style="color: var(--gc-text-secondary); font-family: 'Trebuchet MS', sans-serif; font-size: 0.85rem; letter-spacing: 1px;">
+                        Don't have an account?
+                    </span>
+                    <a href="{{ url_for('auth.register_page') }}" class="gc-login-link">Register Here</a>
+                </p>
+            </div>
+        </div>
+
+
+        <!-- Testing: Quick Login Table -->
+        {% if test_users %}
+        <div class="container mt-5">
+            <div class="card shadow-sm"
+                style="background: var(--gc-bg-secondary); border: 2px solid var(--gc-border-primary); clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);">
+                <div class="card-header"
+                    style="background: var(--gc-wood-dark); color: white; font-family: 'Trebuchet MS', sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; padding: 15px;">
+                    ⚠️ Testing: Quick Login
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3" style="font-family: 'Trebuchet MS', sans-serif; font-size: 0.85rem;">
+                        <strong>Development Mode:</strong> Click any user below to instantly log in as that user
+                        (bypasses
+                        authentication).
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="color: var(--gc-text-primary);">
+                            <thead
+                                style="background: var(--gc-bg-tertiary); font-family: 'Trebuchet MS', sans-serif; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
+                                <tr>
+                                    <th scope="col" style="border-color: var(--gc-border-primary);">Name</th>
+                                    <th scope="col" style="border-color: var(--gc-border-primary);">Email</th>
+                                    <th scope="col" style="border-color: var(--gc-border-primary);">Role(s)</th>
+                                    <th scope="col" style="border-color: var(--gc-border-primary);">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-family: 'Trebuchet MS', sans-serif; font-size: 0.9rem;">
+                                {% for user in test_users %}
+                                <tr style="border-color: var(--gc-border-primary);">
+                                    <td style="border-color: var(--gc-border-primary);">{{ user.name }}</td>
+                                    <td style="border-color: var(--gc-border-primary);">{{ user.email }}</td>
+                                    <td style="border-color: var(--gc-border-primary);">
+                                        {% for role in user.roles %}
+                                        <span class="badge" style="
+                                            background: var(--gc-wood-mid); 
+                                            color: white; 
+                                            font-size: 0.75rem; 
+                                            padding: 4px 8px; 
+                                            margin-right: 4px;
+                                            text-transform: uppercase;
+                                            letter-spacing: 1px;
+                                        ">{{ role }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td style="border-color: var(--gc-border-primary);">
+                                        <form method="POST" action="{{ url_for('auth.quick_login', user_id=user.id) }}"
+                                            style="display: inline;">
+                                            <button type="submit" class="btn btn-sm" style="
+                                            background: var(--gc-wood-dark); 
+                                            color: white; 
+                                            border: none;
+                                            font-family: 'Trebuchet MS', sans-serif;
+                                            text-transform: uppercase;
+                                            letter-spacing: 1px;
+                                            font-size: 0.75rem;
+                                            padding: 6px 12px;
+                                            transition: all 0.3s ease;
+                                        " onmouseover="this.style.background='var(--gc-wood-mid)'"
+                                                onmouseout="this.style.background='var(--gc-wood-dark)'">
+                                                Login as {{ user.primary_role }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-danger mb-0"
+                        style="font-family: 'Trebuchet MS', sans-serif; font-size: 0.75rem; margin-top: 10px;">
+                        <strong>⚠️ WARNING:</strong> This feature should be DISABLED in production environments!
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Auto-dismiss success messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function () {
+        const successAlerts = document.querySelectorAll('.gc-alert-success');
+        successAlerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.5s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
+        });
+
+        // Focus first input on page load
+        const firstInput = document.querySelector('.gc-form-input');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    });
+
+    // Form validation feedback
+    const form = document.querySelector('.gc-login-form');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+
+            if (!email.value || !password.value) {
+                e.preventDefault();
+                alert('Please fill in all fields');
+            }
+        });
+    }
+</script>
+{% endblock scripts %}

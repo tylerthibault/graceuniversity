@@ -1,0 +1,400 @@
+{% extends "bases/private.html" %}
+
+{% block title %}Superuser Dashboard - Grace University{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/tables.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/typography.css') }}">
+
+<style>
+    /* Dashboard Container */
+    .gc-dashboard {
+        min-height: 100vh;
+        background: var(--gc-bg-primary);
+        padding: 40px 20px;
+        transition: background 0.3s ease;
+    }
+
+    /* Dashboard Header */
+    .gc-dashboard-header {
+        margin-bottom: 40px;
+    }
+
+    .gc-dashboard-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: 700;
+        color: var(--gc-text-primary);
+        margin-bottom: 8px;
+    }
+
+    .gc-dashboard-subtitle {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-text-secondary);
+    }
+
+    /* Stats Grid */
+    .gc-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .gc-stat-card {
+        background: var(--gc-bg-secondary);
+        border: 2px solid var(--gc-border-primary);
+        clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+        padding: 24px;
+        transition: all 0.3s ease;
+        box-shadow: var(--gc-shadow-card);
+    }
+
+    .gc-stat-card:hover {
+        box-shadow: var(--gc-shadow-card-hover);
+        transform: translateY(-4px);
+    }
+
+    .gc-stat-label {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--gc-text-secondary);
+        margin-bottom: 12px;
+    }
+
+    .gc-stat-value {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--gc-wood-accent);
+        line-height: 1;
+    }
+
+    .gc-stat-subtext {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.75rem;
+        color: var(--gc-text-tertiary);
+        margin-top: 8px;
+        letter-spacing: 1px;
+    }
+
+    /* Section Title */
+    .gc-section-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 700;
+        color: var(--gc-text-primary);
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--gc-border-primary);
+    }
+
+    /* Table Styling */
+    .gc-table-card {
+        background: var(--gc-bg-secondary);
+        border: 2px solid var(--gc-border-primary);
+        clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+        padding: 24px;
+        margin-bottom: 30px;
+        box-shadow: var(--gc-shadow-card);
+    }
+
+    .gc-table {
+        width: 100%;
+        font-family: 'Trebuchet MS', sans-serif;
+        color: var(--gc-text-primary);
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .gc-table thead {
+        background: var(--gc-bg-tertiary);
+    }
+
+    .gc-table thead th {
+        padding: 16px 12px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        font-weight: 700;
+        text-align: left;
+        border-bottom: 2px solid var(--gc-border-primary);
+        color: var(--gc-text-secondary);
+    }
+
+    .gc-table tbody td {
+        padding: 14px 12px;
+        border-bottom: 1px solid var(--gc-border-primary);
+        font-size: 0.9rem;
+    }
+
+    .gc-table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+    .gc-table tbody tr:hover {
+        background: var(--gc-bg-tertiary);
+    }
+
+    /* Badge Styling */
+    .gc-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        font-family: 'Trebuchet MS', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        border-radius: 0;
+        clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+    }
+
+    .gc-badge-active {
+        background: #10b981;
+        color: white;
+    }
+
+    .gc-badge-inactive {
+        background: #6b7280;
+        color: white;
+    }
+
+    .gc-badge-role {
+        background: var(--gc-wood-mid);
+        color: white;
+        margin-right: 4px;
+    }
+
+    /* Role Distribution Grid */
+    .gc-role-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .gc-role-item {
+        background: var(--gc-bg-tertiary);
+        border: 2px solid var(--gc-border-primary);
+        padding: 16px;
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    .gc-role-name {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+        color: var(--gc-wood-accent);
+        margin-bottom: 8px;
+    }
+
+    .gc-role-count {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--gc-text-primary);
+    }
+
+    .gc-role-desc {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.75rem;
+        color: var(--gc-text-tertiary);
+        margin-top: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .gc-dashboard-title {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+
+        .gc-stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .gc-stat-value {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="gc-dashboard">
+    <div class="container-fluid">
+        <!-- Dashboard Header -->
+        <div class="gc-dashboard-header">
+            <h1 class="gc-dashboard-title">Superuser Dashboard</h1>
+            <p class="gc-dashboard-subtitle">System Administration & Analytics</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="gc-stats-grid">
+            <div class="gc-stat-card">
+                <div class="gc-stat-label">Total Users</div>
+                <div class="gc-stat-value">{{ data.stats.total_users }}</div>
+                <div class="gc-stat-subtext">{{ data.stats.new_users_30d }} new in last 30 days</div>
+            </div>
+
+            <div class="gc-stat-card">
+                <div class="gc-stat-label">Active Users</div>
+                <div class="gc-stat-value">{{ data.stats.active_users }}</div>
+                <div class="gc-stat-subtext">{{ data.stats.inactive_users }} inactive</div>
+            </div>
+
+            <div class="gc-stat-card">
+                <div class="gc-stat-label">Total Courses</div>
+                <div class="gc-stat-value">{{ data.stats.total_courses }}</div>
+                <div class="gc-stat-subtext">Available in system</div>
+            </div>
+
+            <div class="gc-stat-card">
+                <div class="gc-stat-label">Enrollments</div>
+                <div class="gc-stat-value">{{ data.stats.total_enrollments }}</div>
+                <div class="gc-stat-subtext">Total course enrollments</div>
+            </div>
+        </div>
+
+        <!-- User Growth Section -->
+        <div class="gc-table-card">
+            <h2 class="gc-section-title">User Growth</h2>
+            <div class="gc-stats-grid">
+                <div class="gc-stat-card">
+                    <div class="gc-stat-label">Last 7 Days</div>
+                    <div class="gc-stat-value">{{ data.user_growth.last_7_days }}</div>
+                </div>
+
+                <div class="gc-stat-card">
+                    <div class="gc-stat-label">Last 30 Days</div>
+                    <div class="gc-stat-value">{{ data.user_growth.last_30_days }}</div>
+                </div>
+
+                <div class="gc-stat-card">
+                    <div class="gc-stat-label">Last 90 Days</div>
+                    <div class="gc-stat-value">{{ data.user_growth.last_90_days }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role Distribution -->
+        <div class="gc-table-card">
+            <h2 class="gc-section-title">Role Distribution</h2>
+            <div class="gc-role-grid">
+                {% for role in data.role_distribution %}
+                <div class="gc-role-item">
+                    <div class="gc-role-name">{{ role.role }}</div>
+                    <div class="gc-role-count">{{ role.count }}</div>
+                    <div class="gc-role-desc">{{ role.description }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Activity Summary -->
+        <div class="gc-table-card">
+            <h2 class="gc-section-title">Activity Summary</h2>
+            <div class="gc-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="gc-stat-card">
+                    <div class="gc-stat-label">Active Today</div>
+                    <div class="gc-stat-value">{{ data.activity_summary.active_today }}</div>
+                    <div class="gc-stat-subtext">Users who logged in today</div>
+                </div>
+
+                <div class="gc-stat-card">
+                    <div class="gc-stat-label">Active This Week</div>
+                    <div class="gc-stat-value">{{ data.activity_summary.active_this_week }}</div>
+                    <div class="gc-stat-subtext">Users who logged in this week</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Users Table -->
+        <div class="gc-table-card">
+            <h2 class="gc-section-title">Recent Users</h2>
+            <div class="table-responsive">
+                <table class="gc-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in data.recent_users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                <span class="gc-badge gc-badge-role">{{ role }}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if user.is_active %}
+                                <span class="gc-badge gc-badge-active">Active</span>
+                                {% else %}
+                                <span class="gc-badge gc-badge-inactive">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') if user.created_at else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="gc-table-card">
+            <h2 class="gc-section-title">Quick Actions</h2>
+            <div class="d-flex gap-3 flex-wrap">
+                <button class="gc-btn gc-btn-dark-primary">
+                    <span>Manage Users</span>
+                </button>
+                <button class="gc-btn gc-btn-dark-primary">
+                    <span>Manage Courses</span>
+                </button>
+                <button class="gc-btn gc-btn-dark-primary">
+                    <span>System Settings</span>
+                </button>
+                <button class="gc-btn gc-btn-dark-primary">
+                    <span>View Logs</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dashboard interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Superuser dashboard loaded');
+        
+        // Add any interactive features here
+        // Example: Auto-refresh stats every 30 seconds
+        // setInterval(() => location.reload(), 30000);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,351 @@
+<!-- Flash Messages Component with Timer -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="gc-flash-container">
+            {% for category, message in messages %}
+                <div class="gc-flash gc-flash-{{ category }}" data-gc-flash data-duration="5000">
+                    <!-- Icon -->
+                    <div class="gc-flash-icon">
+                        {% if category == 'success' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        {% elif category == 'error' or category == 'danger' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                        {% elif category == 'warning' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        {% endif %}
+                    </div>
+
+                    <!-- Message Content -->
+                    <div class="gc-flash-content">
+                        <p class="gc-flash-message">{{ message }}</p>
+                    </div>
+
+                    <!-- Close Button -->
+                    <button class="gc-flash-close" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Timer Progress Bar -->
+                    <div class="gc-flash-timer-bar"></div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<style>
+    /* Flash Container */
+    .gc-flash-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 400px;
+        pointer-events: none;
+    }
+
+    /* Individual Flash Message */
+    .gc-flash {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+        background: var(--gc-bg-secondary);
+        border: 2px solid var(--gc-border-primary);
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+        box-shadow: var(--gc-shadow-card);
+        animation: slideInRight 0.3s ease-out;
+        pointer-events: auto;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .gc-flash:hover {
+        box-shadow: var(--gc-shadow-card-hover);
+        transform: translateX(-4px);
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+    }
+
+    .gc-flash.gc-flash-removing {
+        animation: slideOutRight 0.3s ease-out forwards;
+    }
+
+    /* Flash Icon */
+    .gc-flash-icon {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Flash Content */
+    .gc-flash-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .gc-flash-message {
+        margin: 0;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--gc-text-primary);
+        letter-spacing: 0.5px;
+    }
+
+    /* Close Button */
+    .gc-flash-close {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--gc-text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 0;
+    }
+
+    .gc-flash-close:hover {
+        color: var(--gc-text-primary);
+        transform: scale(1.1);
+    }
+
+    /* Timer Progress Bar */
+    .gc-flash-timer-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: currentColor;
+        width: 100%;
+        transform-origin: left;
+        transition: transform 0.1s linear;
+    }
+
+    /* Category-Specific Styles */
+    .gc-flash-success {
+        border-color: #10b981;
+    }
+
+    .gc-flash-success .gc-flash-icon,
+    .gc-flash-success .gc-flash-timer-bar {
+        color: #10b981;
+    }
+
+    .gc-flash-error,
+    .gc-flash-danger {
+        border-color: #ef4444;
+    }
+
+    .gc-flash-error .gc-flash-icon,
+    .gc-flash-error .gc-flash-timer-bar,
+    .gc-flash-danger .gc-flash-icon,
+    .gc-flash-danger .gc-flash-timer-bar {
+        color: #ef4444;
+    }
+
+    .gc-flash-warning {
+        border-color: #f59e0b;
+    }
+
+    .gc-flash-warning .gc-flash-icon,
+    .gc-flash-warning .gc-flash-timer-bar {
+        color: #f59e0b;
+    }
+
+    .gc-flash-info {
+        border-color: #3b82f6;
+    }
+
+    .gc-flash-info .gc-flash-icon,
+    .gc-flash-info .gc-flash-timer-bar {
+        color: #3b82f6;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .gc-flash-container {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            max-width: none;
+        }
+    }
+</style>
+
+<script>
+    /**
+     * Flash Message Timer System
+     * - Auto-dismisses messages after configured duration
+     * - Pauses timer on hover
+     * - Visual progress bar indicator
+     * - Manual close button
+     */
+    (function() {
+        'use strict';
+
+        class FlashMessage {
+            constructor(element) {
+                this.element = element;
+                this.duration = parseInt(element.dataset.duration) || 5000;
+                this.timer = null;
+                this.startTime = null;
+                this.remainingTime = this.duration;
+                this.progressBar = element.querySelector('.gc-flash-timer-bar');
+                this.closeBtn = element.querySelector('.gc-flash-close');
+                this.isPaused = false;
+
+                this.init();
+            }
+
+            init() {
+                // Set up event listeners
+                this.element.addEventListener('mouseenter', () => this.pause());
+                this.element.addEventListener('mouseleave', () => this.resume());
+                this.closeBtn.addEventListener('click', () => this.close());
+
+                // Start the timer
+                this.start();
+            }
+
+            start() {
+                this.startTime = Date.now();
+                this.updateProgress();
+                this.scheduleClose();
+            }
+
+            pause() {
+                if (this.isPaused) return;
+                
+                this.isPaused = true;
+                clearTimeout(this.timer);
+                
+                // Calculate remaining time
+                const elapsed = Date.now() - this.startTime;
+                this.remainingTime = Math.max(0, this.remainingTime - elapsed);
+            }
+
+            resume() {
+                if (!this.isPaused) return;
+                
+                this.isPaused = false;
+                this.startTime = Date.now();
+                this.scheduleClose();
+                this.updateProgress();
+            }
+
+            scheduleClose() {
+                this.timer = setTimeout(() => {
+                    this.close();
+                }, this.remainingTime);
+            }
+
+            updateProgress() {
+                if (!this.progressBar) return;
+
+                const update = () => {
+                    if (this.isPaused) {
+                        requestAnimationFrame(update);
+                        return;
+                    }
+
+                    const elapsed = Date.now() - this.startTime;
+                    const progress = Math.max(0, 1 - elapsed / this.remainingTime);
+                    
+                    this.progressBar.style.transform = `scaleX(${progress})`;
+
+                    if (progress > 0 && !this.isPaused) {
+                        requestAnimationFrame(update);
+                    }
+                };
+
+                requestAnimationFrame(update);
+            }
+
+            close() {
+                clearTimeout(this.timer);
+                this.element.classList.add('gc-flash-removing');
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    this.element.remove();
+                    
+                    // Remove container if empty
+                    const container = document.querySelector('.gc-flash-container');
+                    if (container && container.children.length === 0) {
+                        container.remove();
+                    }
+                }, 300);
+            }
+        }
+
+        // Initialize all flash messages
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashElements = document.querySelectorAll('[data-gc-flash]');
+            flashElements.forEach(element => {
+                new FlashMessage(element);
+            });
+        });
+
+        // Also initialize immediately if DOM is already loaded
+        if (document.readyState === 'loading') {
+            // DOMContentLoaded listener above will handle it
+        } else {
+            const flashElements = document.querySelectorAll('[data-gc-flash]');
+            flashElements.forEach(element => {
+                new FlashMessage(element);
+            });
+        }
+    })();
+</script>

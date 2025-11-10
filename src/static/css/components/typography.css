@@ -1,0 +1,165 @@
+/* Grace City Typography Components */
+
+/* Base Heading Styles */
+.gc-heading-primary {
+    font-size: 5.5rem;
+    text-transform: uppercase;
+    letter-spacing: 14px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 30px;
+}
+
+/* Steel I-beam accent */
+.gc-heading-primary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+}
+
+/* Wood grain accent after h1 */
+.gc-heading-primary::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 30px;
+    right: 0;
+    height: 4px;
+}
+
+.gc-heading-secondary {
+    font-size: 2rem;
+    margin: 50px 0 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 700;
+    padding: 15px 0 15px 25px;
+    position: relative;
+}
+
+/* Steel angle iron accent */
+.gc-heading-secondary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+}
+
+.gc-heading-secondary::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+}
+
+.gc-subtitle {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    padding-left: 30px;
+    position: relative;
+}
+
+.gc-subtitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+}
+
+/* Dark Mode Typography */
+.gc-heading-primary-dark {
+    color: #a8a8a8;
+    text-shadow: 
+        3px 3px 0 rgba(0, 0, 0, 0.5),
+        -1px -1px 0 #6d6d6d;
+}
+
+.gc-heading-primary-dark::before {
+    background: linear-gradient(180deg, #6d6d6d 0%, #3d3d3d 50%, #6d6d6d 100%);
+    box-shadow: 
+        inset 2px 0 3px rgba(0, 0, 0, 0.5),
+        2px 0 5px rgba(109, 109, 109, 0.3);
+}
+
+.gc-heading-primary-dark::after {
+    background: linear-gradient(90deg, #5a3d2a 0%, #3d2817 100%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.gc-heading-secondary-dark {
+    color: #8a8a8a;
+    background: linear-gradient(90deg, rgba(61, 61, 61, 0.3) 0%, transparent 100%);
+}
+
+.gc-heading-secondary-dark::before {
+    background: linear-gradient(180deg, #6d6d6d 0%, #4d4d4d 100%);
+    box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.gc-heading-secondary-dark::after {
+    background: linear-gradient(90deg, #5a3d2a 0%, #3d3d3d 30%, transparent 100%);
+}
+
+.gc-subtitle-dark {
+    color: #5d5d5d;
+}
+
+.gc-subtitle-dark::before {
+    background: linear-gradient(90deg, #5a3d2a 0%, transparent 100%);
+}
+
+/* Light Mode Typography */
+.gc-heading-primary-light {
+    color: #4a4a4a;
+    text-shadow: 
+        2px 2px 0 rgba(0, 0, 0, 0.05),
+        -1px -1px 0 #b0b0b0;
+}
+
+.gc-heading-primary-light::before {
+    background: linear-gradient(180deg, #a0a0a0 0%, #707070 50%, #a0a0a0 100%);
+    box-shadow: 
+        inset 2px 0 3px rgba(0, 0, 0, 0.2),
+        2px 0 5px rgba(160, 160, 160, 0.3);
+}
+
+.gc-heading-primary-light::after {
+    background: linear-gradient(90deg, #d4b896 0%, #c9a875 100%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.gc-heading-secondary-light {
+    color: #5a5a5a;
+    background: linear-gradient(90deg, rgba(200, 200, 200, 0.3) 0%, transparent 100%);
+}
+
+.gc-heading-secondary-light::before {
+    background: linear-gradient(180deg, #a0a0a0 0%, #8a8a8a 100%);
+    box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.gc-heading-secondary-light::after {
+    background: linear-gradient(90deg, #d4b896 0%, #a0a0a0 30%, transparent 100%);
+}
+
+.gc-subtitle-light {
+    color: #7a7a7a;
+}
+
+.gc-subtitle-light::before {
+    background: linear-gradient(90deg, #d4b896 0%, transparent 100%);
+}

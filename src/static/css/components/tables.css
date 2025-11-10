@@ -1,0 +1,178 @@
+/* Grace City Table Components */
+
+/* Base Table Container */
+.gc-table-container {
+    margin: 30px 0;
+    border: 2px solid;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Wood grain top border */
+.gc-table-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gc-table-header {
+    padding: 15px;
+    border-bottom: 4px solid;
+    position: relative;
+    margin-top: 6px;
+}
+
+/* Steel rivet detail */
+.gc-table-header::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.gc-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.gc-table-container thead {
+    background: linear-gradient(180deg, currentColor 0%, currentColor 100%);
+}
+
+.gc-table-container th {
+    padding: 20px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid;
+    font-size: 0.85rem;
+    background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(90, 61, 42, 0.2) 10px,
+        rgba(90, 61, 42, 0.2) 11px
+    );
+}
+
+.gc-table-container td {
+    padding: 18px 20px;
+    border-bottom: 1px solid;
+    font-size: 1rem;
+}
+
+.gc-table-container tbody tr {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.gc-table-container tbody tr:hover {
+    transform: translateX(5px);
+}
+
+/* Dark Mode Tables */
+.gc-table-dark {
+    border-color: #3d3d3d;
+    background: #0d0d0d;
+}
+
+.gc-table-dark::before {
+    background: linear-gradient(90deg, #5a3d2a 0%, #4a3320 50%, #5a3d2a 100%);
+}
+
+.gc-table-dark .gc-table-header {
+    background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+    border-bottom-color: #4d4d4d;
+}
+
+.gc-table-dark .gc-table-header::after {
+    background: radial-gradient(circle, #6d6d6d 0%, #4d4d4d 60%, #3d3d3d 100%);
+    box-shadow: 
+        inset -2px -2px 3px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 3px rgba(109, 109, 109, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gc-table-dark thead {
+    background: linear-gradient(180deg, #3d2817 0%, #2d1f12 100%);
+}
+
+.gc-table-dark th {
+    color: #d4c5b0;
+    border-bottom-color: #4d4d4d;
+}
+
+.gc-table-dark td {
+    border-bottom-color: #2d2d2d;
+    color: #b8b8b8;
+}
+
+.gc-table-dark tbody tr {
+    background: #1a1a1a;
+}
+
+.gc-table-dark tbody tr:hover {
+    background: #252525;
+    border-left-color: #5a3d2a;
+    box-shadow: inset 0 0 10px rgba(90, 61, 42, 0.2);
+}
+
+/* Light Mode Tables */
+.gc-table-light {
+    border-color: #d0d0d0;
+    background: #fafafa;
+}
+
+.gc-table-light::before {
+    background: linear-gradient(90deg, #d4b896 0%, #cca97f 50%, #d4b896 100%);
+}
+
+.gc-table-light .gc-table-header {
+    background: linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 100%);
+    border-bottom-color: #a0a0a0;
+}
+
+.gc-table-light .gc-table-header::after {
+    background: radial-gradient(circle, #b0b0b0 0%, #8a8a8a 60%, #707070 100%);
+    box-shadow: 
+        inset -2px -2px 3px rgba(0, 0, 0, 0.2),
+        inset 2px 2px 3px rgba(255, 255, 255, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gc-table-light thead {
+    background: linear-gradient(180deg, #d4b896 0%, #c9a875 100%);
+}
+
+.gc-table-light th {
+    color: #3d2817;
+    border-bottom-color: #a0a0a0;
+}
+
+.gc-table-light td {
+    border-bottom-color: #e8e8e8;
+    color: #4a4a4a;
+}
+
+.gc-table-light tbody tr {
+    background: #ffffff;
+}
+
+.gc-table-light tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.gc-table-light tbody tr:hover {
+    background: #f8f8f8;
+    border-left-color: #d4b896;
+    box-shadow: inset 0 0 10px rgba(212, 184, 150, 0.2);
+}

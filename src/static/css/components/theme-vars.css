@@ -1,0 +1,129 @@
+/* Grace City Theme Variables */
+
+/* Default to Dark Mode */
+:root,
+[data-gc-theme="dark"] {
+    /* Backgrounds */
+    --gc-bg-primary: #0d0d0d;
+    --gc-bg-secondary: #1a1a1a;
+    --gc-bg-tertiary: #252525;
+    --gc-bg-container: #fefefe;
+    --gc-bg-gradient-start: #1a1a1a;
+    --gc-bg-gradient-end: #0d0d0d;
+    
+    /* Grid Pattern */
+    --gc-grid-color: rgba(50, 50, 50, 0.2);
+    
+    /* Steel Tones */
+    --gc-steel-lightest: #6d6d6d;
+    --gc-steel-light: #4d4d4d;
+    --gc-steel-mid: #3d3d3d;
+    --gc-steel-dark: #2d2d2d;
+    
+    /* Wood Tones */
+    --gc-wood-light: #5a3d2a;
+    --gc-wood-mid: #4a3320;
+    --gc-wood-dark: #3d2817;
+    --gc-wood-darkest: #2d1f12;
+    --gc-wood-accent: #d4c5b0;
+    --gc-wood-text: #d4c5b0;
+    
+    /* Text */
+    --gc-text-primary: #d9d9d9;
+    --gc-text-secondary: #a8a8a8;
+    --gc-text-tertiary: #8a8a8a;
+    --gc-text-muted: #5d5d5d;
+    
+    /* Borders */
+    --gc-border-primary: #3d3d3d;
+    --gc-border-secondary: #4d4d4d;
+    
+    /* Shadows */
+    --gc-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+    --gc-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.7);
+    --gc-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.9);
+    --gc-shadow-inset: inset 0 2px 3px rgba(0, 0, 0, 0.5);
+    --gc-shadow-container: 0 0 0 1px #3d3d3d, 0 0 0 8px #1a1a1a, 0 0 0 9px #4d4d4d, 0 30px 80px rgba(0, 0, 0, 0.9);
+    --gc-shadow-card: inset 0 1px 0 rgba(109, 109, 109, 0.2), 5px 5px 20px rgba(0, 0, 0, 0.7);
+    --gc-shadow-card-hover: inset 0 1px 0 rgba(109, 109, 109, 0.3), 7px 7px 25px rgba(0, 0, 0, 0.9);
+    --gc-shadow-button: inset 0 1px 0 rgba(109, 109, 109, 0.1), 3px 3px 10px rgba(0, 0, 0, 0.6);
+    --gc-shadow-button-hover: inset 0 1px 0 rgba(109, 109, 109, 0.2), 5px 5px 15px rgba(0, 0, 0, 0.8);
+    --gc-shadow-table-header: inset -2px -2px 3px rgba(0, 0, 0, 0.5), inset 2px 2px 3px rgba(109, 109, 109, 0.3), 0 2px 4px rgba(0, 0, 0, 0.5);
+    --gc-shadow-divider-inset: inset 0 2px 3px rgba(0, 0, 0, 0.5);
+    --gc-shadow-divider: 0 2px 5px rgba(0, 0, 0, 0.5);
+    --gc-shadow-rivet: inset -1px -1px 2px rgba(0, 0, 0, 0.5), inset 1px 1px 2px rgba(109, 109, 109, 0.3);
+}
+
+/* Light Mode Override */
+[data-gc-theme="light"] {
+    /* Backgrounds */
+    --gc-bg-primary: #f5f5f5;
+    --gc-bg-secondary: #fefefe;
+    --gc-bg-tertiary: #fafafa;
+    --gc-bg-container: #ffffff;
+    --gc-bg-gradient-start: #fefefe;
+    --gc-bg-gradient-end: #f8f8f8;
+    
+    /* Grid Pattern */
+    --gc-grid-color: rgba(200, 200, 200, 0.15);
+    
+    /* Steel Tones */
+    --gc-steel-lightest: #c0c0c0;
+    --gc-steel-light: #b0b0b0;
+    --gc-steel-mid: #a0a0a0;
+    --gc-steel-dark: #8a8a8a;
+    
+    /* Wood Tones */
+    --gc-wood-light: #d4b896;
+    --gc-wood-mid: #c9a875;
+    --gc-wood-dark: #cca97f;
+    --gc-wood-darkest: #b89968;
+    --gc-wood-accent: #3d2817;
+    --gc-wood-text: #3d2817;
+    
+    /* Text */
+    --gc-text-primary: #2d2d2d;
+    --gc-text-secondary: #4a4a4a;
+    --gc-text-tertiary: #5a5a5a;
+    --gc-text-muted: #7a7a7a;
+    
+    /* Borders */
+    --gc-border-primary: #d0d0d0;
+    --gc-border-secondary: #c0c0c0;
+    
+    /* Shadows */
+    --gc-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --gc-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.15);
+    --gc-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
+    --gc-shadow-inset: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+    --gc-shadow-container: 0 0 0 1px #d0d0d0, 0 0 0 8px #f5f5f5, 0 0 0 9px #b0b0b0, 0 30px 80px rgba(0, 0, 0, 0.2);
+    --gc-shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.8), 5px 5px 20px rgba(0, 0, 0, 0.1);
+    --gc-shadow-card-hover: inset 0 1px 0 rgba(255, 255, 255, 0.8), 7px 7px 25px rgba(0, 0, 0, 0.15);
+    --gc-shadow-button: inset 0 1px 0 rgba(255, 255, 255, 0.5), 3px 3px 10px rgba(0, 0, 0, 0.1);
+    --gc-shadow-button-hover: inset 0 1px 0 rgba(255, 255, 255, 0.5), 5px 5px 15px rgba(0, 0, 0, 0.15);
+    --gc-shadow-table-header: inset -2px -2px 3px rgba(0, 0, 0, 0.2), inset 2px 2px 3px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.1);
+    --gc-shadow-divider-inset: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+    --gc-shadow-divider: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --gc-shadow-rivet: inset -1px -1px 2px rgba(0, 0, 0, 0.2), inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Smooth transitions for theme changes */
+body,
+body * {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Prevent transition on page load */
+body.no-transitions,
+body.no-transitions * {
+    transition: none !important;
+}
+
+/* Apply theme to body */
+body {
+    background: var(--gc-bg-primary);
+    color: var(--gc-text-primary);
+}

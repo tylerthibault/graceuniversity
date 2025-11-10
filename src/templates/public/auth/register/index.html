@@ -1,0 +1,536 @@
+{% extends "bases/public.html" %}
+
+{% block title %}Register - Grace University{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/typography.css') }}">
+
+<style>
+    /* Register page container */
+    .gc-register-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: var(--gc-bg-primary);
+        transition: background 0.3s ease;
+    }
+
+    /* Register card wrapper */
+    .gc-register-card-wrapper {
+        width: 100%;
+        max-width: 520px;
+        animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Register header */
+    .gc-register-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .gc-register-title {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--gc-text-primary);
+    }
+
+    .gc-register-subtitle {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-text-secondary);
+    }
+
+    /* Form styling */
+    .gc-register-form {
+        margin-top: 30px;
+    }
+
+    .gc-form-group {
+        margin-bottom: 22px;
+    }
+
+    .gc-form-label {
+        display: block;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--gc-text-primary);
+    }
+
+    .gc-form-label .gc-required {
+        color: var(--gc-wood-accent);
+        margin-left: 4px;
+    }
+
+    .gc-form-input {
+        width: 100%;
+        padding: 14px 18px;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.95rem;
+        border: 2px solid var(--gc-border-primary);
+        background: var(--gc-bg-secondary);
+        color: var(--gc-text-primary);
+        transition: all 0.3s ease;
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    .gc-form-input:focus {
+        outline: none;
+        border-color: var(--gc-wood-mid);
+        background: var(--gc-bg-tertiary);
+        box-shadow: 0 0 0 3px var(--gc-wood-light);
+    }
+
+    .gc-form-input::placeholder {
+        color: var(--gc-text-tertiary);
+        opacity: 0.7;
+    }
+
+    .gc-form-input.gc-error {
+        border-color: #ef4444;
+    }
+
+    /* Form row for split fields */
+    .gc-form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    /* Alert messages */
+    .gc-alert {
+        padding: 14px 18px;
+        margin-bottom: 25px;
+        border: 2px solid;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+
+    .gc-alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+        color: #fca5a5;
+    }
+
+    .gc-alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
+        color: #6ee7b7;
+    }
+
+    .gc-alert-info {
+        background: rgba(59, 130, 246, 0.1);
+        border-color: #3b82f6;
+        color: #93c5fd;
+    }
+
+    /* Password strength indicator */
+    .gc-password-strength {
+        margin-top: 8px;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .gc-password-strength-bar {
+        height: 4px;
+        background: var(--gc-border-primary);
+        margin-top: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .gc-password-strength-fill {
+        height: 100%;
+        width: 0;
+        transition: all 0.3s ease;
+    }
+
+    .gc-password-strength-fill.weak {
+        width: 33%;
+        background: #ef4444;
+    }
+
+    .gc-password-strength-fill.medium {
+        width: 66%;
+        background: #f59e0b;
+    }
+
+    .gc-password-strength-fill.strong {
+        width: 100%;
+        background: #10b981;
+    }
+
+    /* Submit button */
+    .gc-register-submit {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    /* Footer links */
+    .gc-register-footer {
+        margin-top: 30px;
+        text-align: center;
+        padding-top: 25px;
+        border-top: 2px solid var(--gc-border-primary);
+    }
+
+    .gc-register-link {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gc-wood-accent);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .gc-register-link:hover {
+        color: var(--gc-wood-mid);
+        text-decoration: underline;
+    }
+
+    /* Helper text */
+    .gc-helper-text {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        color: var(--gc-text-tertiary);
+        margin-top: 6px;
+    }
+
+    /* Validation message */
+    .gc-validation-message {
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        color: #ef4444;
+        margin-top: 6px;
+        display: none;
+    }
+
+    .gc-validation-message.show {
+        display: block;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .gc-register-title {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+        }
+
+        .gc-register-card-wrapper {
+            max-width: 100%;
+        }
+
+        .gc-form-row {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<div class="gc-register-container">
+    <div class="gc-register-card-wrapper">
+        <!-- Register Header -->
+        <div class="gc-register-header">
+            <h1 class="gc-register-title">Grace University</h1>
+            <p class="gc-register-subtitle">New Recruit Registration</p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="gc-card gc-card-dark">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="gc-alert gc-alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Register Form -->
+            <form method="POST" action="{{ url_for('auth.register') }}" class="gc-register-form" id="registerForm">
+                <!-- Full Name Field -->
+                <div class="gc-form-group">
+                    <label for="name" class="gc-form-label">
+                        Full Name<span class="gc-required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="gc-form-input" 
+                        placeholder="John Doe"
+                        required
+                        autocomplete="name"
+                        minlength="2"
+                    >
+                    <div class="gc-validation-message" id="nameError"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="gc-form-group">
+                    <label for="email" class="gc-form-label">
+                        Email Address<span class="gc-required">*</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="gc-form-input" 
+                        placeholder="your.email@example.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <div class="gc-validation-message" id="emailError"></div>
+                </div>
+
+                <!-- Phone Field (Optional) -->
+                <div class="gc-form-group">
+                    <label for="phone" class="gc-form-label">
+                        Phone Number
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="gc-form-input" 
+                        placeholder="+1 (555) 123-4567"
+                        autocomplete="tel"
+                    >
+                    <div class="gc-helper-text">Optional - For account recovery</div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="gc-form-group">
+                    <label for="password" class="gc-form-label">
+                        Password<span class="gc-required">*</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="gc-form-input" 
+                        placeholder="Create a strong password"
+                        required
+                        autocomplete="new-password"
+                        minlength="8"
+                    >
+                    <div class="gc-password-strength">
+                        <span id="strengthText">Password Strength: <span id="strengthLevel">-</span></span>
+                        <div class="gc-password-strength-bar">
+                            <div class="gc-password-strength-fill" id="strengthBar"></div>
+                        </div>
+                    </div>
+                    <div class="gc-helper-text">Minimum 8 characters</div>
+                    <div class="gc-validation-message" id="passwordError"></div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="gc-form-group">
+                    <label for="confirm_password" class="gc-form-label">
+                        Confirm Password<span class="gc-required">*</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirm_password" 
+                        name="confirm_password" 
+                        class="gc-form-input" 
+                        placeholder="Re-enter your password"
+                        required
+                        autocomplete="new-password"
+                    >
+                    <div class="gc-validation-message" id="confirmPasswordError"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="gc-btn gc-btn-dark-primary gc-register-submit">
+                    <span>Create Account</span>
+                </button>
+            </form>
+
+            <!-- Footer Links -->
+            <div class="gc-register-footer">
+                <p style="margin: 0;">
+                    <span style="color: var(--gc-text-secondary); font-family: 'Trebuchet MS', sans-serif; font-size: 0.85rem; letter-spacing: 1px;">
+                        Already have an account?
+                    </span>
+                    <a href="{{ url_for('auth.login_page') }}" class="gc-register-link">Login Here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // Form validation
+    const form = document.getElementById('registerForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm_password');
+
+    // Password strength checker
+    function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthLevel = document.getElementById('strengthLevel');
+        
+        let strength = 0;
+        
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+        if (/\d/.test(password)) strength++;
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+        
+        strengthBar.className = 'gc-password-strength-fill';
+        
+        if (strength <= 2) {
+            strengthBar.classList.add('weak');
+            strengthLevel.textContent = 'Weak';
+            strengthLevel.style.color = '#ef4444';
+        } else if (strength <= 4) {
+            strengthBar.classList.add('medium');
+            strengthLevel.textContent = 'Medium';
+            strengthLevel.style.color = '#f59e0b';
+        } else {
+            strengthBar.classList.add('strong');
+            strengthLevel.textContent = 'Strong';
+            strengthLevel.style.color = '#10b981';
+        }
+    }
+
+    // Real-time password strength
+    passwordInput.addEventListener('input', function() {
+        if (this.value) {
+            checkPasswordStrength(this.value);
+        } else {
+            document.getElementById('strengthBar').className = 'gc-password-strength-fill';
+            document.getElementById('strengthLevel').textContent = '-';
+        }
+    });
+
+    // Real-time password match validation
+    confirmPasswordInput.addEventListener('input', function() {
+        const confirmError = document.getElementById('confirmPasswordError');
+        if (this.value && this.value !== passwordInput.value) {
+            confirmError.textContent = 'Passwords do not match';
+            confirmError.classList.add('show');
+            this.classList.add('gc-error');
+        } else {
+            confirmError.classList.remove('show');
+            this.classList.remove('gc-error');
+        }
+    });
+
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        // Clear previous errors
+        document.querySelectorAll('.gc-validation-message').forEach(msg => {
+            msg.classList.remove('show');
+        });
+        document.querySelectorAll('.gc-form-input').forEach(input => {
+            input.classList.remove('gc-error');
+        });
+
+        // Validate name
+        if (nameInput.value.trim().length < 2) {
+            document.getElementById('nameError').textContent = 'Name must be at least 2 characters';
+            document.getElementById('nameError').classList.add('show');
+            nameInput.classList.add('gc-error');
+            isValid = false;
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
+            document.getElementById('emailError').textContent = 'Please enter a valid email address';
+            document.getElementById('emailError').classList.add('show');
+            emailInput.classList.add('gc-error');
+            isValid = false;
+        }
+
+        // Validate password
+        if (passwordInput.value.length < 8) {
+            document.getElementById('passwordError').textContent = 'Password must be at least 8 characters';
+            document.getElementById('passwordError').classList.add('show');
+            passwordInput.classList.add('gc-error');
+            isValid = false;
+        }
+
+        // Validate password match
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+            document.getElementById('confirmPasswordError').classList.add('show');
+            confirmPasswordInput.classList.add('gc-error');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            // Scroll to first error
+            const firstError = document.querySelector('.gc-error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstError.focus();
+            }
+        }
+    });
+
+    // Auto-dismiss success messages
+    document.addEventListener('DOMContentLoaded', function() {
+        const successAlerts = document.querySelectorAll('.gc-alert-success');
+        successAlerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.5s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
+        });
+
+        // Focus first input
+        const firstInput = document.querySelector('.gc-form-input');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    });
+</script>
+{% endblock scripts %}

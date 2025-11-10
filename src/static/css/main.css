@@ -1,0 +1,512 @@
+/* Grace City Main Stylesheet - Theme Aware */
+/* CSS Variables are loaded from theme-vars.css in public.html */
+
+/* ===================================
+   BASE STYLES
+   =================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background: var(--gc-bg-primary);
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, var(--gc-grid-color) 2px, var(--gc-grid-color) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, var(--gc-grid-color) 2px, var(--gc-grid-color) 4px),
+        linear-gradient(180deg, var(--gc-bg-gradient-start) 0%, var(--gc-bg-gradient-end) 100%);
+    color: var(--gc-text-primary);
+    padding: 25px 15px;
+    min-height: 100vh;
+}
+
+/* ===================================
+   CONTAINER
+   =================================== */
+.gc-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--gc-bg-secondary);
+    padding: 0;
+    box-shadow: var(--gc-shadow-container);
+    position: relative;
+}
+
+/* Steel I-beam corner brackets */
+.gc-container::before,
+.gc-container::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 5px solid var(--gc-steel-lightest);
+    z-index: 10;
+}
+
+.gc-container::before {
+    top: -8px;
+    left: -8px;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: inset 2px 2px 0 rgba(var(--gc-steel-lightest), 0.3);
+}
+
+.gc-container::after {
+    bottom: -8px;
+    right: -8px;
+    border-left: none;
+    border-top: none;
+    box-shadow: inset -2px -2px 0 rgba(var(--gc-steel-lightest), 0.3);
+}
+
+/* ===================================
+   HEADER BAR
+   =================================== */
+.gc-header-bar {
+    background: linear-gradient(90deg, var(--gc-wood-dark) 0%, var(--gc-wood-light) 30%, var(--gc-wood-mid) 70%, var(--gc-wood-dark) 100%);
+    padding: 12px 20px;
+    border-bottom: 3px solid var(--gc-steel-light);
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.gc-header-bar::before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: var(--gc-steel-mid);
+    transform: rotate(45deg);
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.gc-header-bar::after {
+    content: '';
+    flex-grow: 1;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gc-steel-mid) 0%, var(--gc-steel-light) 50%, transparent 100%);
+}
+
+/* ===================================
+   MAIN CONTENT
+   =================================== */
+.gc-main-content {
+    padding: 50px;
+    background: linear-gradient(135deg, var(--gc-bg-gradient-start) 0%, var(--gc-bg-gradient-end) 100%);
+}
+
+/* ===================================
+   TYPOGRAPHY
+   =================================== */
+.gc-heading-primary {
+    font-size: 5.5rem;
+    color: var(--gc-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 14px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 30px;
+}
+
+[data-gc-theme="dark"] .gc-heading-primary {
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5), -1px -1px 0 var(--gc-steel-lightest);
+}
+
+[data-gc-theme="light"] .gc-heading-primary {
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05), -1px -1px 0 var(--gc-steel-light);
+}
+
+/* Steel I-beam accent */
+.gc-heading-primary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    background: linear-gradient(180deg, var(--gc-steel-mid) 0%, var(--gc-steel-dark) 50%, var(--gc-steel-mid) 100%);
+    box-shadow: inset 2px 0 3px rgba(0, 0, 0, 0.5), 2px 0 5px rgba(var(--gc-steel-mid), 0.3);
+}
+
+/* Wood grain accent */
+.gc-heading-primary::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 30px;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gc-wood-light) 0%, var(--gc-wood-dark) 100%);
+    box-shadow: var(--gc-shadow-divider);
+}
+
+.gc-heading-secondary {
+    font-size: 2rem;
+    color: var(--gc-text-tertiary);
+    margin: 50px 0 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 700;
+    padding: 15px 0 15px 25px;
+    position: relative;
+}
+
+[data-gc-theme="dark"] .gc-heading-secondary {
+    background: linear-gradient(90deg, rgba(61, 61, 61, 0.3) 0%, transparent 100%);
+}
+
+[data-gc-theme="light"] .gc-heading-secondary {
+    background: linear-gradient(90deg, rgba(200, 200, 200, 0.3) 0%, transparent 100%);
+}
+
+/* Steel angle iron accent */
+.gc-heading-secondary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: linear-gradient(180deg, var(--gc-steel-mid) 0%, var(--gc-steel-light) 100%);
+    box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.gc-heading-secondary::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gc-wood-light) 0%, var(--gc-border-primary) 30%, transparent 100%);
+}
+
+.gc-subtitle {
+    font-size: 1.2rem;
+    color: var(--gc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    padding-left: 30px;
+    position: relative;
+}
+
+.gc-subtitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gc-wood-light) 0%, transparent 100%);
+}
+
+/* ===================================
+   STEEL DIVIDER
+   =================================== */
+.gc-steel-divider {
+    height: 8px;
+    background: linear-gradient(180deg, var(--gc-steel-light) 0%, var(--gc-border-primary) 50%, var(--gc-steel-dark) 100%);
+    margin: 50px 0;
+    box-shadow: var(--gc-shadow-divider-inset), var(--gc-shadow-divider);
+    position: relative;
+}
+
+/* Rivets on steel divider */
+.gc-steel-divider::before,
+.gc-steel-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, var(--gc-steel-lightest) 0%, var(--gc-steel-light) 70%, var(--gc-steel-mid) 100%);
+    border-radius: 50%;
+    box-shadow: var(--gc-shadow-rivet);
+}
+
+.gc-steel-divider::before {
+    left: 20px;
+}
+
+.gc-steel-divider::after {
+    right: 20px;
+}
+
+/* ===================================
+   TABLES
+   =================================== */
+.gc-table-container {
+    margin: 30px 0;
+    border: 2px solid var(--gc-border-primary);
+    background: var(--gc-bg-primary);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Wood grain top border */
+.gc-table-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--gc-wood-light) 0%, var(--gc-wood-mid) 50%, var(--gc-wood-light) 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gc-table-header {
+    background: linear-gradient(180deg, var(--gc-bg-tertiary) 0%, var(--gc-bg-secondary) 100%);
+    padding: 15px;
+    border-bottom: 4px solid var(--gc-steel-light);
+    position: relative;
+    margin-top: 6px;
+}
+
+/* Steel rivet detail */
+.gc-table-header::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, var(--gc-steel-light) 0%, var(--gc-steel-mid) 60%, var(--gc-steel-dark) 100%);
+    border-radius: 50%;
+    box-shadow: var(--gc-shadow-table-header);
+}
+
+.gc-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.gc-table-container thead {
+    background: linear-gradient(180deg, var(--gc-wood-light) 0%, var(--gc-wood-darkest) 100%);
+}
+
+.gc-table-container th {
+    padding: 20px;
+    text-align: left;
+    color: var(--gc-wood-text);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid var(--gc-steel-light);
+    font-size: 0.85rem;
+    background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(90, 61, 42, 0.2) 10px,
+        rgba(90, 61, 42, 0.2) 11px
+    );
+}
+
+.gc-table-container td {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gc-border-primary);
+    color: var(--gc-text-secondary);
+    font-size: 1rem;
+}
+
+.gc-table-container tbody tr {
+    background: var(--gc-bg-secondary);
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+[data-gc-theme="dark"] .gc-table-container tbody tr:hover {
+    background: var(--gc-bg-tertiary);
+    border-left-color: var(--gc-wood-light);
+    box-shadow: inset 0 0 10px rgba(90, 61, 42, 0.2);
+}
+
+[data-gc-theme="light"] .gc-table-container tbody tr:nth-child(even) {
+    background: var(--gc-bg-tertiary);
+}
+
+[data-gc-theme="light"] .gc-table-container tbody tr:hover {
+    background: #f8f8f8;
+    border-left-color: var(--gc-wood-light);
+    box-shadow: inset 0 0 10px rgba(212, 184, 150, 0.2);
+}
+
+/* ===================================
+   CARDS
+   =================================== */
+.gc-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.gc-card {
+    background: linear-gradient(135deg, var(--gc-bg-tertiary) 0%, var(--gc-bg-secondary) 100%);
+    border: 2px solid var(--gc-border-primary);
+    border-top: 5px solid var(--gc-wood-light);
+    padding: 35px;
+    box-shadow: var(--gc-shadow-card);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Steel corner bracket */
+.gc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: 
+        linear-gradient(135deg, transparent 48%, var(--gc-steel-light) 48%, var(--gc-steel-light) 52%, transparent 52%),
+        linear-gradient(225deg, transparent 48%, var(--gc-steel-light) 48%, var(--gc-steel-light) 52%, transparent 52%);
+    opacity: 0.3;
+}
+
+/* Steel rivet */
+.gc-card::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, var(--gc-steel-lightest) 0%, var(--gc-steel-light) 70%, var(--gc-steel-mid) 100%);
+    border-radius: 50%;
+    box-shadow: var(--gc-shadow-rivet);
+}
+
+.gc-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--gc-shadow-card-hover);
+    border-top-color: var(--gc-wood-mid);
+    border-color: var(--gc-border-secondary);
+}
+
+.gc-card h3 {
+    color: var(--gc-text-secondary);
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+/* Wood underline accent */
+.gc-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gc-wood-light) 0%, transparent 100%);
+}
+
+.gc-card p {
+    color: var(--gc-text-tertiary);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+/* ===================================
+   BUTTONS
+   =================================== */
+.gc-button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 40px 0;
+}
+
+.gc-btn {
+    padding: 16px 40px;
+    background: linear-gradient(145deg, var(--gc-bg-tertiary) 0%, var(--gc-bg-secondary) 100%);
+    color: var(--gc-text-secondary);
+    border: 2px solid var(--gc-border-primary);
+    cursor: pointer;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: var(--gc-shadow-button);
+    position: relative;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Steel rivet details on buttons */
+.gc-btn::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, var(--gc-steel-light) 0%, var(--gc-steel-mid) 100%);
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.gc-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, var(--gc-steel-light) 0%, var(--gc-steel-mid) 100%);
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.gc-btn:hover {
+    background: linear-gradient(145deg, var(--gc-border-primary) 0%, var(--gc-bg-tertiary) 100%);
+    transform: translateY(-3px);
+    box-shadow: var(--gc-shadow-button-hover);
+    border-color: var(--gc-border-secondary);
+    color: var(--gc-text-primary);
+}
+
+.gc-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.gc-btn-primary {
+    background: linear-gradient(145deg, var(--gc-wood-light) 0%, var(--gc-wood-dark) 100%);
+    border-color: var(--gc-wood-mid);
+    color: var(--gc-wood-text);
+}
+
+.gc-btn-primary:hover {
+    background: linear-gradient(145deg, var(--gc-wood-mid) 0%, var(--gc-wood-light) 100%);
+    border-color: var(--gc-wood-light);
+}
+
+.gc-btn-secondary {
+    background: linear-gradient(145deg, var(--gc-border-primary) 0%, var(--gc-bg-tertiary) 100%);
+    border: 2px solid var(--gc-wood-light);
+    color: var(--gc-wood-text);
+}
+
+.gc-btn-secondary:hover {
+    border-color: var(--gc-wood-mid);
+    background: linear-gradient(145deg, var(--gc-border-secondary) 0%, var(--gc-border-primary) 100%);
+}

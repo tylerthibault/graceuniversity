@@ -1,0 +1,237 @@
+// Grace University LMS - Database Schema (Simplified)
+// For use with dbdiagram.io
+// Date: November 9, 2025
+
+// ===================================
+// USERS & AUTHENTICATION
+// ===================================
+
+Table users {
+  id integer [primary key, increment]
+  email varchar(255) [not null, unique]
+  password_hash varchar(255) [not null]
+  name varchar(100) [not null]
+  phone varchar(20)
+  role varchar(50) [not null, note: 'superuser, admin, team_lead, doorholder']
+  is_active boolean [default: true]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+  last_login timestamp [null]
+  
+  indexes {
+    email [unique]
+    role
+  }
+}
+
+Table sessions {
+  id integer [primary key, increment]
+  user_id integer [not null, ref: > users.id]
+  token varchar(255) [not null, unique]
+  expires_at timestamp [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    token [unique]
+    user_id
+    expires_at
+  }
+}
+
+// ===================================
+// TEAMS
+// ===================================
+
+Table teams {
+  id integer [primary key, increment]
+  name varchar(100) [not null]
+  ministry_area varchar(100) [not null, note: 'parking, greeting, ushers, kids, etc']
+  description text
+  is_active boolean [default: true]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    ministry_area
+    is_active
+  }
+}
+
+Table team_members {
+  id integer [primary key, increment]
+  team_id integer [not null, ref: > teams.id]
+  user_id integer [not null, ref: > users.id]
+  is_team_lead boolean [default: false]
+  joined_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    team_id
+    user_id
+    (team_id, user_id) [unique]
+  }
+}
+
+// ===================================
+// COURSES & CONTENT
+// ===================================
+
+Table courses {
+  id integer [primary key, increment]
+  title varchar(200) [not null]
+  description text
+  is_campus_wide boolean [default: false, note: 'campus-wide or team-specific']
+  completion_method varchar(50) [default: 'honor_system', note: 'honor_system, assessment, manual_approval']
+  passing_score integer [default: 0, note: 'percentage for assessment method']
+  certificate_enabled boolean [default: true]
+  certificate_expires boolean [default: false]
+  expiration_months integer [null, note: 'months until recertification']
+  created_by integer [not null, ref: > users.id]
+  is_active boolean [default: true]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    is_active
+    is_campus_wide
+  }
+}
+
+Table course_prerequisites {
+  id integer [primary key, increment]
+  course_id integer [not null, ref: > courses.id]
+  prerequisite_course_id integer [not null, ref: > courses.id]
+  
+  indexes {
+    (course_id, prerequisite_course_id) [unique]
+  }
+}
+
+Table lessons {
+  id integer [primary key, increment]
+  course_id integer [not null, ref: > courses.id]
+  title varchar(200) [not null]
+  content_type varchar(50) [not null, note: 'video, pdf, quiz, interactive, link, live_session']
+  content_url text [note: 'URL or file path']
+  content_data text [note: 'JSON for quizzes, interactive content']
+  order_index integer [not null]
+  is_required boolean [default: true]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    course_id
+    (course_id, order_index)
+  }
+}
+
+// ===================================
+// ENROLLMENTS & PROGRESS
+// ===================================
+
+Table enrollments {
+  id integer [primary key, increment]
+  user_id integer [not null, ref: > users.id]
+  course_id integer [not null, ref: > courses.id]
+  team_id integer [null, ref: > teams.id, note: 'which team assigned this']
+  assigned_by integer [not null, ref: > users.id]
+  soft_deadline timestamp [null]
+  hard_deadline timestamp [null]
+  enrolled_at timestamp [default: `CURRENT_TIMESTAMP`]
+  started_at timestamp [null]
+  completed_at timestamp [null]
+  status varchar(50) [default: 'not_started', note: 'not_started, in_progress, completed, expired']
+  score integer [null, note: 'final percentage if applicable']
+  
+  indexes {
+    user_id
+    course_id
+    status
+    (user_id, course_id, team_id) [unique]
+  }
+}
+
+Table lesson_progress {
+  id integer [primary key, increment]
+  user_id integer [not null, ref: > users.id]
+  lesson_id integer [not null, ref: > lessons.id]
+  completed boolean [default: false]
+  time_spent integer [default: 0, note: 'seconds']
+  answer_data text [note: 'JSON for quiz answers']
+  completed_at timestamp [null]
+  
+  indexes {
+    user_id
+    lesson_id
+    (user_id, lesson_id) [unique]
+  }
+}
+
+// ===================================
+// CERTIFICATES
+// ===================================
+
+Table certificates {
+  id integer [primary key, increment]
+  user_id integer [not null, ref: > users.id]
+  course_id integer [not null, ref: > courses.id]
+  certificate_number varchar(100) [unique, not null]
+  issued_at timestamp [default: `CURRENT_TIMESTAMP`]
+  expires_at timestamp [null]
+  
+  indexes {
+    user_id
+    course_id
+    certificate_number [unique]
+  }
+}
+
+// ===================================
+// COMMUNICATION
+// ===================================
+
+Table announcements {
+  id integer [primary key, increment]
+  title varchar(200) [not null]
+  content text [not null]
+  created_by integer [not null, ref: > users.id]
+  team_id integer [null, ref: > teams.id, note: 'null = system-wide']
+  priority varchar(50) [default: 'normal', note: 'normal, high, urgent']
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  expires_at timestamp [null]
+  
+  indexes {
+    team_id
+    created_at
+  }
+}
+
+Table messages {
+  id integer [primary key, increment]
+  sender_id integer [not null, ref: > users.id]
+  recipient_id integer [not null, ref: > users.id]
+  subject varchar(200)
+  body text [not null]
+  is_read boolean [default: false]
+  sent_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    sender_id
+    recipient_id
+    is_read
+  }
+}
+
+// ===================================
+// ACTIVITY TRACKING
+// ===================================
+
+Table activity_logs {
+  id integer [primary key, increment]
+  user_id integer [not null, ref: > users.id]
+  action varchar(100) [not null, note: 'login, logout, course_complete, etc']
+  details text [note: 'JSON with additional context']
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    user_id
+    created_at
+  }
+}
